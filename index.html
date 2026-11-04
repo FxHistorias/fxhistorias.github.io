@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FxCiro y FxLuna | Historias</title>
+<meta name="description" content="Historias animadas de Ciro y Luna. Síguelos en YouTube, TikTok e Instagram.">
+
+<!-- Vista previa al compartir (WhatsApp, Instagram...) -->
+<meta property="og:title" content="Las historias de Ciro y Luna">
+<meta property="og:description" content="Drama, secretos y giros. Síguelos en YouTube, TikTok e Instagram.">
+<meta property="og:image" content="https://fxmaik.github.io/fxhistorias/og.jpg">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Icono de la pestaña: usa icono.png si existe; si no, la carita ツ -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%233b82f6'/%3E%3Cstop offset='1' stop-color='%23d946ef'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='26' fill='url(%23g)'/%3E%3Ctext x='50' y='70' font-size='62' text-anchor='middle' fill='white' font-family='sans-serif'%3E%E3%83%84%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="icono.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#07080f; --text:#f5f6ff; --muted:#9ea3c4;
+    --ciro:#3b82f6; --ciro2:#06b6d4;
+    --luna:#d946ef; --luna2:#f472b6;
+    --vidrio:rgba(255,255,255,.05); --borde:rgba(255,255,255,.1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Outfit',system-ui,sans-serif;background:var(--bg);color:var(--text);
+    min-height:100vh;display:flex;justify-content:center;padding:40px 16px;overflow-x:hidden;
+  }
+
+  /* ---------- Fondo animado ---------- */
+  .fondo{position:fixed;inset:0;z-index:-2;overflow:hidden}
+  .blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.6;animation:flotar 11s ease-in-out infinite}
+  .b1{width:480px;height:480px;background:var(--ciro);top:-140px;left:-120px}
+  .b2{width:460px;height:460px;background:var(--luna);bottom:-140px;right:-120px;animation-delay:-6s}
+  .b3{width:320px;height:320px;background:#7c3aed;top:40%;left:45%;opacity:.35;animation-delay:-12s}
+  @keyframes flotar{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(140px,110px) scale(1.2)}66%{transform:translate(-90px,70px) scale(.9)}}
+  /* Partículas que suben */
+  .particulas{position:fixed;inset:0;z-index:-1;pointer-events:none;width:100%;height:100%}
+  /* La portada respira un poco */
+  .portada img{animation:respirar 12s ease-in-out infinite}
+  @keyframes respirar{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+  /* Brillo que cruza la portada */
+  .portada::before{content:"";position:absolute;top:0;bottom:0;width:40%;z-index:1;pointer-events:none;
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.12),transparent);
+    left:-50%;animation:brillo 7s ease-in-out infinite}
+  @keyframes brillo{0%,60%{left:-50%}100%{left:120%}}
+  .grano{position:fixed;inset:0;z-index:-1;opacity:.06;pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  .rejilla{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.07;
+    background-image:linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px);background-size:44px 44px;
+    mask-image:radial-gradient(circle at center,#000 20%,transparent 75%);-webkit-mask-image:radial-gradient(circle at center,#000 20%,transparent 75%)}
+
+  main{width:100%;max-width:820px}
+
+  /* ---------- Portada arriba ---------- */
+  .portada{position:relative;border-radius:24px;overflow:hidden;margin-bottom:22px;
+    border:1px solid var(--borde);box-shadow:0 20px 60px -20px #7c3aed}
+  .portada img{display:block;width:100%;aspect-ratio:1200/630;object-fit:cover}
+  .portada::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(to bottom,transparent 60%,rgba(7,8,15,.55))}
+  @media (max-width:560px){.portada{border-radius:18px}}
+  /* ---------- Marca arriba ---------- */
+  .marca{display:flex;justify-content:center;margin-bottom:18px}
+  .marca .logo{width:64px;height:64px;border-radius:20px;display:grid;place-items:center;overflow:hidden;
+    background:linear-gradient(135deg,var(--ciro),#7c3aed,var(--luna));box-shadow:0 10px 40px -10px #7c3aed;
+    font-size:2.3rem;color:#fff;animation:latir 3s ease-in-out infinite}
+  .marca .logo img{width:100%;height:100%;object-fit:cover}
+  @keyframes latir{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.06) rotate(-3deg)}}
+
+  header{text-align:center;margin-bottom:34px}
+  .etiqueta{display:inline-block;font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
+    border:1px solid rgba(255,255,255,.12);padding:6px 14px;border-radius:99px;background:rgba(255,255,255,.04)}
+  header h1{font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;margin-top:14px;line-height:1.1}
+  .grad{background:linear-gradient(90deg,var(--ciro2),var(--ciro),#a78bfa,var(--luna),var(--luna2));
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  header p{color:var(--muted);margin-top:10px}
+
+  .caja{border-radius:24px;background:var(--vidrio);border:1px solid var(--borde);
+    backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 20px 50px -20px rgba(0,0,0,.6)}
+
+  /* ---------- Canales lado a lado ---------- */
+  .canales{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .canal{padding:26px 18px 20px;text-align:center;transition:transform .25s,box-shadow .25s}
+  .canal:hover{transform:translateY(-4px);box-shadow:0 26px 60px -20px var(--c1)}
+  .foto{width:110px;height:110px;margin:0 auto 14px;border-radius:50%;padding:4px;
+    background:conic-gradient(from 0deg,var(--c1),var(--c2),var(--c1))}
+  .foto img,.foto .inicial{width:100%;height:100%;border-radius:50%;object-fit:cover;border:3px solid var(--bg);display:block;background:#11131f}
+  .foto .inicial{display:grid;place-items:center;font-size:2.4rem;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--c1),var(--c2))}
+  .canal h2{font-size:1.35rem}
+  .canal .desc{color:var(--muted);font-size:.9rem;margin:2px 0 16px}
+  .btn{display:flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;color:var(--text);
+    padding:12px 14px;border-radius:14px;margin-top:10px;font-weight:600;font-size:.95rem;font-family:inherit;
+    background:rgba(255,255,255,.06);border:1px solid var(--borde);cursor:pointer;
+    transition:background .2s,transform .2s,border-color .2s}
+  .btn:hover{background:linear-gradient(90deg,var(--c1),var(--c2));border-color:transparent;transform:scale(1.03)}
+  .btn svg{width:18px;height:18px;flex-shrink:0}
+
+  /* ---------- Secciones de abajo ---------- */
+  section.bloque{margin-top:22px;padding:24px 22px}
+  .bloque h3{font-size:1.25rem;margin-bottom:6px}
+  .bloque > p.sub{color:var(--muted);font-size:.92rem;margin-bottom:16px}
+
+  .aviso{display:flex;gap:14px;align-items:center;--c1:#f59e0b;--c2:#ef4444}
+  .aviso .ico{font-size:1.8rem;flex-shrink:0}
+  .aviso p{color:var(--muted);font-size:.92rem}
+  .aviso b{color:var(--text)}
+  .aviso .btn{margin:0 0 0 auto;white-space:nowrap;flex-shrink:0}
+
+  form{display:grid;gap:12px;--c1:var(--ciro);--c2:var(--luna)}
+  .tipos{display:flex;flex-wrap:wrap;gap:8px}
+  .tipos label{cursor:pointer}
+  .tipos input{display:none}
+  .tipos span{display:inline-block;padding:8px 14px;border-radius:99px;font-size:.88rem;font-weight:600;
+    border:1px solid var(--borde);background:rgba(255,255,255,.04);transition:all .2s}
+  .tipos input:checked + span{background:linear-gradient(90deg,var(--ciro),var(--luna));border-color:transparent}
+  textarea,input[type=text],input[type=url]{width:100%;font-family:inherit;font-size:.95rem;color:var(--text);
+    background:rgba(0,0,0,.25);border:1px solid var(--borde);border-radius:14px;padding:12px 14px;outline:none}
+  textarea{min-height:110px;resize:vertical}
+  textarea:focus,input:focus{border-color:#a78bfa}
+  ::placeholder{color:#6f7496}
+  .oculto{display:none !important}
+  .trampa{position:absolute;left:-9999px}
+  .fila{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .fila .btn{margin:0;padding:12px 22px}
+  .contador{color:var(--muted);font-size:.88rem}
+  .contador b{color:var(--text)}
+  .estado{font-size:.9rem;font-weight:600}
+  .estado.ok{color:#4ade80} .estado.mal{color:#f87171}
+
+  .correos{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .correo{text-decoration:none;color:var(--text);padding:14px;border-radius:16px;
+    background:rgba(255,255,255,.05);border:1px solid var(--borde);transition:transform .2s,border-color .2s}
+  .correo:hover{transform:translateY(-2px);border-color:var(--c1)}
+  .correo small{display:block;color:var(--muted);font-size:.78rem}
+  .correo b{display:block;font-size:.92rem;word-break:break-all;margin-top:2px}
+  .nota-colab{color:var(--muted);font-size:.9rem;text-align:center;margin-top:14px}
+
+  .personajes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+  .personaje{padding:16px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid var(--borde);border-top:3px solid var(--c1)}
+  .personaje h4{font-size:1.05rem;margin-bottom:6px}
+  .personaje p{color:var(--muted);font-size:.9rem;line-height:1.5}
+  .nosotros p.texto{color:var(--muted);font-size:.92rem;line-height:1.6;margin-top:10px}
+  .nosotros p.texto b{color:var(--text)}
+  .sello{display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:8px 14px;border-radius:99px;
+    font-size:.82rem;color:var(--text);background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.35)}
+
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+
+  /* Celular: los canales siguen lado a lado, más compactos */
+  @media (max-width:560px){
+    .canales{gap:10px}
+    .canal{padding:18px 10px 14px;border-radius:18px}
+    .foto{width:78px;height:78px}
+    .canal h2{font-size:1.05rem}
+    .canal .desc{font-size:.75rem;margin-bottom:10px}
+    .canal .btn{font-size:.8rem;padding:10px 6px;gap:6px;border-radius:12px}
+    .canal .btn svg{width:15px;height:15px}
+    section.bloque{padding:20px 16px}
+    .aviso{flex-wrap:wrap}
+    .aviso .btn{margin:0;width:100%}
+    .correos,.personajes{grid-template-columns:1fr}
+  }
+  @media (prefers-reduced-motion:reduce){.blob,.marca .logo,.portada img,.portada::before{animation:none}.particulas{display:none}}
+</style>
+</head>
+<body>
+<div class="fondo"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+<div class="rejilla"></div>
+<canvas class="particulas" id="particulas"></canvas>
+<div class="grano"></div>
+
+<main>
+  <div class="portada">
+    <img src="og.jpg" alt="Ciro y Luna" onerror="this.parentElement.remove()">
+  </div>
+
+  <header>
+    <span class="etiqueta">Historias animadas</span>
+    <h1>Las historias de <span class="grad">Ciro y Luna</span></h1>
+    <p>Drama, secretos y giros. Elige tu red favorita.</p>
+  </header>
+
+  <div class="canales" id="canales"></div>
+
+  <!-- Ideas, recomendaciones y reportes -->
+  <section class="bloque caja" id="buzon">
+    <h3>Cuéntanos qué quieres ver 💬</h3>
+    <p class="sub">Mándanos ideas de historias, temas que quieres que tratemos o reporta un canal. Solo lo leemos nosotros.</p>
+    <form id="formulario" autocomplete="off">
+      <div class="tipos">
+        <label><input type="radio" name="tipo" value="Idea de historia" checked><span>💡 Idea de historia</span></label>
+        <label><input type="radio" name="tipo" value="Tema o recomendación"><span>🗣️ Tema o recomendación</span></label>
+        <label><input type="radio" name="tipo" value="Reporte de canal"><span>🚨 Reportar canal</span></label>
+      </div>
+      <textarea name="mensaje" id="mensaje" maxlength="1500" required placeholder="Escribe aquí tu idea..."></textarea>
+      <input type="url" name="enlace" id="enlace" class="oculto" maxlength="400" placeholder="Enlace del canal o video copiado">
+      <input type="text" name="nombre" maxlength="60" placeholder="Tu nombre o usuario (opcional)">
+      <input type="text" name="web" class="trampa" tabindex="-1" aria-hidden="true">
+      <div class="fila">
+        <button class="btn" type="submit" id="enviar">Enviar</button>
+        <span class="estado" id="estado"></span>
+      </div>
+      <p class="contador oculto" id="contador">✨ Ya se han enviado <b id="numero">0</b> ideas y recomendaciones</p>
+    </form>
+  </section>
+
+  <!-- Colaboraciones -->
+  <section class="bloque caja">
+    <h3>Colaboraciones 🤝</h3>
+    <p class="sub">¿Eres una marca y quieres trabajar con nosotros? Escríbenos aquí.</p>
+    <div class="correos">
+      <a class="correo" style="--c1:var(--ciro)" href="mailto:FxCiro2007@gmail.com?subject=Colaboraci%C3%B3n%20con%20FxCiro">
+        <small>FxCiro</small><b>FxCiro2007@gmail.com</b></a>
+      <a class="correo" style="--c1:var(--luna)" href="mailto:FxLuna2007@gmail.com?subject=Colaboraci%C3%B3n%20con%20FxLuna">
+        <small>FxLuna</small><b>FxLuna2007@gmail.com</b></a>
+    </div>
+    <p class="nota-colab">💜 ¿Quieres trabajar con los dos? Escribe a cualquiera de los correos y listo.</p>
+  </section>
+
+  <!-- Sobre nosotros -->
+  <section class="bloque caja nosotros">
+    <h3>Conócelos</h3>
+    <p class="sub">Dos mejores amigos, dos formas de vivir la vida.</p>
+    <div class="personajes">
+      <div class="personaje" style="--c1:var(--ciro)">
+        <h4>⚡ Ciro</h4>
+        <p>Tranquilo por fuera, intenso por dentro. Guarda más secretos de los que cuenta. Sus historias hablan de familia, amistad y primeros amores, y siempre traen un giro que no ves venir.</p>
+      </div>
+      <div class="personaje" style="--c1:var(--luna)">
+        <h4>🌙 Luna</h4>
+        <p>Fuerte, directa y sin miedo a decir lo que siente. Sus historias son reales y crudas: decisiones difíciles, consecuencias de verdad y la fuerza para seguir adelante aunque todo se ponga en contra.</p>
+      </div>
+    </div>
+    <h3>¿Por qué existe esto?</h3>
+    <p class="texto">Creamos a Ciro y Luna para contar historias que se sienten cercanas, de esas que te hacen pensar <b>"¿y si me pasara a mí?"</b>. Cada historia busca que te pongas en sus zapatos, que te enganches y que te quedes con algo al final.</p>
+    <p class="texto">Usamos <b>inteligencia artificial</b> para animar, crear imágenes y poner voces, pero <b>no todo lo hace la IA</b>: las ideas, los guiones, los personajes y cada decisión de la historia los hace una persona real.</p>
+    <span class="sello">🤖 + 🧠 Hecho con IA, pensado por humanos</span>
+  </section>
+
+  <!-- Reportar copias -->
+  <section class="bloque caja aviso">
+    <span class="ico">🚨</span>
+    <p><b>¿Viste uno de nuestros videos en otra cuenta o página?</b> Repórtalo y nos ayudas a cuidar las historias.</p>
+    <button class="btn" type="button" id="irReporte">Reportar</button>
+  </section>
+
+  <footer>ツ © FxCiro · FxLuna</footer>
+</main>
+
+<script>
+  // ====== CONFIGURACIÓN ======
+  // Pega aquí la URL de tu Google Apps Script (ver COMO_CONFIGURAR.md)
+  const URL_SCRIPT = "";
+  // El contador solo se muestra cuando haya al menos esta cantidad de mensajes reales
+  const MOSTRAR_DESDE = 20;
+
+  // Para agregar más canales después, añade otro bloque a esta lista.
+  const canales = [
+    {
+      id: "ciro", nombre: "FxCiro", descripcion: "Las historias de Ciro", foto: "ciro.jpg",
+      c1: "var(--ciro)", c2: "var(--ciro2)",
+      redes: {
+        youtube:   "https://www.youtube.com/@FxCiro",
+        tiktok:    "https://www.tiktok.com/@_fx_ciro",
+        instagram: "https://www.instagram.com/fx_ciro/"
+      }
+    },
+    {
+      id: "luna", nombre: "FxLuna", descripcion: "Las historias de Luna", foto: "luna.jpg",
+      c1: "var(--luna)", c2: "var(--luna2)",
+      redes: {
+        youtube:   "https://www.youtube.com/@Fx_Luna7",
+        tiktok:    "https://www.tiktok.com/@_fx_luna",
+        instagram: "https://www.instagram.com/_fx_luna/"
+      }
+    }
+  ];
+
+  const iconos = {
+    youtube:   '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>',
+    tiktok:    '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 18a3 3 0 1 1-2-2.83V4h11v4h-7v10z"/></svg>',
+    instagram: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="18" height="14" rx="3"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg>'
+  };
+  const nombresRed = { youtube: "YouTube", tiktok: "TikTok", instagram: "Instagram" };
+
+  // ---- Envío privado a tu hoja de Google (solo tú lo ves) ----
+  function enviarDatos(datos) {
+    if (!URL_SCRIPT) return Promise.resolve(false);
+    return fetch(URL_SCRIPT, {
+      method: "POST", mode: "no-cors", keepalive: true,
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(datos)
+    }).then(() => true).catch(() => false);
+  }
+  const disp = /Mobi|Android|iPhone/i.test(navigator.userAgent) ? "celular" : "computadora";
+
+  // ---- Pintar los canales ----
+  const cont = document.getElementById("canales");
+  canales.forEach(c => {
+    const inicial = c.nombre.replace("Fx", "")[0];
+    const botones = Object.entries(c.redes).map(([red, url]) =>
+      `<a class="btn" href="${url}" target="_blank" rel="noopener" data-canal="${c.id}" data-red="${red}">${iconos[red] || ""}${nombresRed[red] || red}</a>`
+    ).join("");
+    cont.insertAdjacentHTML("beforeend", `
+      <div class="canal caja" style="--c1:${c.c1};--c2:${c.c2}">
+        <div class="foto">
+          <img src="${c.foto}" alt="${c.nombre}" onerror="this.outerHTML='<div class=&quot;inicial&quot;>${inicial}</div>'">
+        </div>
+        <h2>${c.nombre}</h2>
+        <p class="desc">${c.descripcion}</p>
+        ${botones}
+      </div>`);
+  });
+
+  // ---- Contar visitas y clics (privado) ----
+  enviarDatos({ tipo: "visita", disp });
+  cont.addEventListener("click", e => {
+    const a = e.target.closest("a[data-red]");
+    if (a) enviarDatos({ tipo: "clic", canal: a.dataset.canal, red: a.dataset.red, disp });
+  });
+
+  // ---- Formulario ----
+  const form = document.getElementById("formulario");
+  const enlace = document.getElementById("enlace");
+  const mensaje = document.getElementById("mensaje");
+  const estado = document.getElementById("estado");
+  const textos = {
+    "Idea de historia": "Escribe aquí tu idea de historia...",
+    "Tema o recomendación": "¿De qué quieres que hablemos? ¿Qué podemos mejorar?",
+    "Reporte de canal": "¿Qué cuenta o página está subiendo nuestros videos?"
+  };
+  form.addEventListener("change", e => {
+    if (e.target.name !== "tipo") return;
+    const esReporte = e.target.value === "Reporte de canal";
+    enlace.classList.toggle("oculto", !esReporte);
+    mensaje.placeholder = textos[e.target.value];
+  });
+  document.getElementById("irReporte").addEventListener("click", () => {
+    const r = form.querySelector('input[value="Reporte de canal"]');
+    r.checked = true; r.dispatchEvent(new Event("change", { bubbles: true }));
+    document.getElementById("buzon").scrollIntoView({ behavior: "smooth" });
+    setTimeout(() => mensaje.focus(), 500);
+  });
+
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    const f = new FormData(form);
+    if (f.get("web")) return; // anti-spam
+    const texto = (f.get("mensaje") || "").trim();
+    if (texto.length < 3) { estado.className = "estado mal"; estado.textContent = "Escribe un poco más 🙂"; return; }
+    const boton = document.getElementById("enviar");
+    boton.disabled = true; estado.className = "estado"; estado.textContent = "Enviando...";
+    const tipoElegido = f.get("tipo");
+    const gracias = {
+      "Idea de historia": "¡Gracias por tu idea! 💡 Nos ayudas a crear mejores historias.",
+      "Tema o recomendación": "¡Gracias por tu recomendación! 💜 Nos ayudas a mejorar.",
+      "Reporte de canal": "¡Gracias por reportarlo! 🚨 Nos ayudas a cuidar nuestras historias."
+    };
+    const ok = await enviarDatos({
+      tipo: tipoElegido, mensaje: texto,
+      enlace: (f.get("enlace") || "").trim(), nombre: (f.get("nombre") || "").trim()
+    });
+    boton.disabled = false;
+    if (ok) {
+      estado.className = "estado ok"; estado.textContent = gracias[tipoElegido] || "¡Gracias por ayudarnos a mejorar! 💜";
+      form.reset(); enlace.classList.add("oculto"); mensaje.placeholder = textos["Idea de historia"];
+      cargarContador(1);
+    } else {
+      estado.className = "estado mal"; estado.textContent = "No se pudo enviar, intenta más tarde.";
+    }
+  });
+
+  // ---- Contador real (solo se muestra desde MOSTRAR_DESDE) ----
+  let total = 0;
+  function cargarContador(sumar = 0) {
+    if (sumar) { total += sumar; pintar(); return; }
+    if (!URL_SCRIPT) return;
+    fetch(URL_SCRIPT).then(r => r.json()).then(d => { total = Number(d.mensajes) || 0; pintar(); }).catch(() => {});
+  }
+  function pintar() {
+    if (total < MOSTRAR_DESDE) return;
+    document.getElementById("numero").textContent = total.toLocaleString("es");
+    document.getElementById("contador").classList.remove("oculto");
+  }
+  cargarContador();
+
+  // ---- Partículas de luz (azules y rosas) que suben despacio ----
+  (function () {
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const cv = document.getElementById("particulas"), ctx = cv.getContext("2d");
+    const colores = ["96,165,250", "232,121,249", "167,139,250"];
+    let W, H, ps = [];
+    function tam() {
+      const r = devicePixelRatio || 1;
+      W = innerWidth; H = innerHeight;
+      cv.width = W * r; cv.height = H * r; ctx.setTransform(r, 0, 0, r, 0, 0);
+      const n = Math.round(Math.min(70, W * H / 16000));
+      ps = Array.from({ length: n }, () => nueva(true));
+    }
+    function nueva(inicio) {
+      return { x: Math.random() * W, y: inicio ? Math.random() * H : H + 10,
+        r: Math.random() * 1.8 + .6, v: Math.random() * .35 + .15,
+        d: Math.random() * Math.PI * 2, c: colores[Math.floor(Math.random() * 3)],
+        a: Math.random() * .5 + .25 };
+    }
+    function paso() {
+      ctx.clearRect(0, 0, W, H);
+      for (const p of ps) {
+        p.y -= p.v; p.d += .01; p.x += Math.sin(p.d) * .3;
+        if (p.y < -10) Object.assign(p, nueva(false));
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${p.c},${p.a})`;
+        ctx.shadowColor = `rgba(${p.c},.9)`; ctx.shadowBlur = 8; ctx.fill();
+      }
+      requestAnimationFrame(paso);
+    }
+    addEventListener("resize", tam); tam(); paso();
+  })();
+</script>
+</body>
+</html>
