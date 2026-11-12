@@ -77,7 +77,15 @@
   .portada img{display:block;width:100%;aspect-ratio:1200/630;object-fit:cover}
   .portada::after{content:"";position:absolute;inset:0;pointer-events:none;
     background:linear-gradient(to bottom,transparent 60%,rgba(7,8,15,.55))}
-  @media (max-width:560px){.portada{border-radius:18px}}
+  @media (max-width:560px){.portada{border-radius:18px}.portada .compartir{top:auto;bottom:10px;right:10px;padding:7px 12px;font-size:.8rem}}
+  /* Computadora: portada más baja y menos aire para que los canales se vean sin bajar */
+  @media (min-width:561px){
+    body{padding-top:20px}
+    .portada{margin-bottom:14px}
+    .portada img{aspect-ratio:auto;height:clamp(200px,27vh,280px);object-position:center 22%}
+    header{margin-bottom:18px}
+    header h1{margin-top:10px}
+  }
   /* ---------- Marca arriba ---------- */
   .marca{display:flex;justify-content:center;margin-bottom:18px}
   .marca .logo{width:64px;height:64px;border-radius:20px;display:grid;place-items:center;overflow:hidden;
@@ -93,7 +101,13 @@
   .grad{background:linear-gradient(90deg,var(--ciro2),var(--ciro),#a78bfa,var(--luna),var(--luna2));
     -webkit-background-clip:text;background-clip:text;color:transparent}
   header p{color:var(--muted);margin-top:10px}
-
+  /* Compartir: pastilla en la esquina de la portada, lejos de los enlaces */
+  .compartir{position:absolute;top:14px;right:14px;z-index:2;margin:0;padding:8px 14px;border-radius:99px;font-size:.85rem;
+    --c1:var(--ciro);--c2:var(--luna);background:rgba(7,8,15,.55);border-color:rgba(255,255,255,.18);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  .compartir svg{width:16px;height:16px}
+  .portada.sin-foto img{display:none}
+  .portada.sin-foto{min-height:62px;box-shadow:none;border:0}
   .caja{border-radius:24px;background:var(--vidrio);border:1px solid var(--borde);
     backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 20px 50px -20px rgba(0,0,0,.6)}
 
@@ -192,7 +206,10 @@
 
 <main>
   <div class="portada">
-    <img src="og.jpg" alt="Ciro y Luna" onerror="this.parentElement.remove()">
+    <img src="og.jpg" alt="Ciro y Luna" onerror="this.parentElement.classList.add('sin-foto')">
+    <button class="btn compartir" type="button" id="compartir">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+      <span id="compartirTexto">Compartir</span></button>
   </div>
 
   <header>
@@ -343,6 +360,17 @@
     if (a) enviarDatos({ tipo: "clic", canal: a.dataset.canal, red: a.dataset.red, disp });
   });
 
+  // ---- Compartir la página ----
+  const URL_PAGINA = "https://fxhistorias.github.io";
+  const txtCompartir = document.getElementById("compartirTexto");
+  document.getElementById("compartir").addEventListener("click", async () => {
+    enviarDatos({ tipo: "clic", canal: "pagina", red: "compartir", disp });
+    const datos = { title: "Las historias de Ciro y Luna", text: "Mira las historias de Ciro y Luna 👉", url: URL_PAGINA };
+    if (navigator.share) { try { await navigator.share(datos); } catch (e) {} return; }
+    try { await navigator.clipboard.writeText(URL_PAGINA); txtCompartir.textContent = "¡Enlace copiado!"; }
+    catch (e) { txtCompartir.textContent = URL_PAGINA.replace("https://", ""); }
+    setTimeout(() => txtCompartir.textContent = "Compartir", 2500);
+  });
   // ---- Formulario ----
   const form = document.getElementById("formulario");
   const enlace = document.getElementById("enlace");
