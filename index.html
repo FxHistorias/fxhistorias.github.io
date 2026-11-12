@@ -78,11 +78,10 @@
   .portada::after{content:"";position:absolute;inset:0;pointer-events:none;
     background:linear-gradient(to bottom,transparent 60%,rgba(7,8,15,.55))}
   @media (max-width:560px){.portada{border-radius:18px}.portada .compartir{top:auto;bottom:10px;right:10px;padding:7px 12px;font-size:.8rem}}
-  /* Computadora: portada más baja y menos aire para que los canales se vean sin bajar */
+  /* Computadora: un poco menos de espacio para que los canales queden más arriba */
   @media (min-width:561px){
     body{padding-top:20px}
     .portada{margin-bottom:14px}
-    .portada img{aspect-ratio:auto;height:clamp(200px,27vh,280px);object-position:center 22%}
     header{margin-bottom:18px}
     header h1{margin-top:10px}
   }
